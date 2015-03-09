@@ -2,26 +2,25 @@
  * Created by KlimMalgin on 06.03.2015.
  */
 
-var Seqs = require('fantasy-seqs').Seq,
-    Option = require('fantasy-options').Option,
-    constant = require('core.lambda').constant,
-    opt = require('./fcommon').opt;
+var constant = require('core.lambda').constant,
+    Option = require('fantasy-options').Option;
 
-var lengthOp = function () {
-    return this.fold(function (list) {
-        return Option.from(list.length);
-    }, constant(Option.None));
+var opt = function (val) {
+    return Option.from(val);
 };
 
 var rangeOp = function (/*arguments*/) {
     var args = arguments;
-    return this.fold(function (list) {
-        return Seqs.fromArray(list.slice.apply(list, args));
-    }, Seqs.empty);
+    return this.cata({
+        Cons: function(x) {
+            return Seq.Cons(x.apply(x, args));
+        },
+        Nil: constant(this)
+    });
 };
 
-var accumulator = function (accumulatorFunction) {
-    return this.fold(function (list) {
+var accumulationOp = function (accumulatorFunction) {
+    return this.chain(function (list) {
         var ln = list.length,
             res = Option.None;
 
@@ -30,13 +29,12 @@ var accumulator = function (accumulatorFunction) {
             else res = accumulatorFunction(res, opt(list[i]), opt(i), opt(ln));
         }
         return res;
-    }, constant(Option.None));
+    });
 };
 
 module.exports = {
 
-    accumulator: accumulator,
-    length: lengthOp,
+    accumulator: accumulationOp,
     range: rangeOp
 
 };
