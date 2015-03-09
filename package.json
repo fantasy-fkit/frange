@@ -1,0 +1,21 @@
+{
+  "name": "range",
+  "description": "Range functions for fantasy-seqs",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fantasy-fkit/range.git"
+  },
+  "keywords": [
+    "range",
+    "seqs",
+    "fantasy",
+    "fkit"
+  ],
+  "dependencies": {
+    "core.lambda": "~1.0.0"
+  },
+  "author": "Klim Malgin",
+  "license": "MIT",
+  "main": "index.js",
+  "version": "0.0.1"
+}
