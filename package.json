@@ -12,7 +12,8 @@
     "fkit"
   ],
   "dependencies": {
-    "core.lambda": "~1.0.0"
+    "core.lambda": "~1.0.0",
+    "fantasy-options": "git://github.com/fantasy-fkit/fantasy-options.git#v0.1.4"
   },
   "author": "Klim Malgin",
   "license": "MIT",
