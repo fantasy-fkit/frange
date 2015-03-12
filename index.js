@@ -11,6 +11,12 @@ var opt = function (val) {
     return Option.from(val);
 };
 
+/**
+ * Возьмет подмассив из массива в контексте и 
+ * передаст его дальше по контексту
+ * @param args набор параметров, переданных в range-метод
+ * @param list массив из контекста
+ */
 var rangeOp = curry(2, function (args, list) {
     return list.slice.apply(list, args);
 });
@@ -31,8 +37,6 @@ var accumulationOp = function (accumulatorFunction) {
 module.exports = {
 
     accumulator: accumulationOp,
-    range: function (/*arguments*/) {
-        return this.operation(rangeOp)(arguments);
-    }
+    range: function (/*arguments*/) { return this.operation(rangeOp)(arguments); }
 
 };
