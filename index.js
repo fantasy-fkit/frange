@@ -21,22 +21,21 @@ var rangeOp = curry(2, function (args, list) {
     return list.slice.apply(list, args);
 });
 
-var accumulationOp = function (accumulatorFunction) {
-    return this.chain(function (list) {
-        var ln = list.length,
-            res = Option.None;
+var accumulationOp = function (args, list) {
+    var accumulatorFunction = args[0],
+        ln = list.length,
+        res = Option.None;
 
-        for (var i = 0; i<ln; i++) {
-            if (i == 0) res = accumulatorFunction(opt(list[i]), opt(list[i]), opt(i), opt(ln));
-            else res = accumulatorFunction(res, opt(list[i]), opt(i), opt(ln));
-        }
-        return res;
-    });
+    for (var i = 0; i<ln; i++) {
+        if (i == 0) res = accumulatorFunction(opt(list[i]), opt(list[i]), opt(i), opt(ln));
+        else res = accumulatorFunction(res, opt(list[i]), opt(i), opt(ln));
+    }
+    return res;
 };
 
 module.exports = {
 
-    accumulator: accumulationOp,
+    accumulator: function (/*arguments*/) { return this.operation(accumulationOp)(arguments); },
     range: function (/*arguments*/) { return this.operation(rangeOp)(arguments); }
 
 };
