@@ -2,22 +2,18 @@
  * Created by KlimMalgin on 06.03.2015.
  */
 
-var constant = require('core.lambda').constant,
+var l = require('core.lambda'),
+    curry = l.curry,
+    constant = l.constant,
     Option = require('fantasy-options').Option;
 
 var opt = function (val) {
     return Option.from(val);
 };
 
-var rangeOp = function (/*arguments*/) {
-    var args = arguments;
-    return this.cata({
-        Cons: function(x) {
-            return Seq.Cons(x.apply(x, args));
-        },
-        Nil: constant(this)
-    });
-};
+var rangeOp = curry(2, function (args, list) {
+    return list.slice.apply(list, args);
+});
 
 var accumulationOp = function (accumulatorFunction) {
     return this.chain(function (list) {
@@ -35,6 +31,8 @@ var accumulationOp = function (accumulatorFunction) {
 module.exports = {
 
     accumulator: accumulationOp,
-    range: rangeOp
+    range: function (/*arguments*/) {
+        return this.operation(rangeOp)(arguments);
+    }
 
 };
